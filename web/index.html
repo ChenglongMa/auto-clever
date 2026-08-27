@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Find Google Scholar publications and prepare them for the ADM+S CLE(v)ER Research Outputs form.">
+    <meta name="theme-color" content="#103b46">
+    <title>Auto CLE(v)ER · Research output helper</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./config.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#lookup-form">Skip to search</a>
+
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <main class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="./" aria-label="Auto CLE(v)ER home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 36 36" role="img">
+              <path d="M9 8.5h13.5a4 4 0 0 1 4 4V27H13a4 4 0 0 1-4-4V8.5Z"></path>
+              <path d="m16 14 6 4-6 4"></path>
+            </svg>
+          </span>
+          <span>Auto CLE(v)ER</span>
+        </a>
+      </header>
+
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">ADM+S · Research Outputs</p>
+          <h1 id="page-title">Move publications into <span>Clever.</span></h1>
+          <p class="hero-intro">Make it easy to prepare your publications for the Clever form.</p>
+        </div>
+      </section>
+
+      <section class="search-panel" aria-labelledby="search-title">
+        <div class="panel-heading">
+          <h2 id="search-title">Find publications</h2>
+        </div>
+
+        <form id="lookup-form" novalidate>
+          <div class="field field-scholar">
+            <label for="scholar-input">Scholar ID or profile URL <small id="scholar-help">The ID follows <code>user=</code> in the profile URL.</small></label>
+            <input
+              id="scholar-input"
+              name="scholar_id"
+              type="text"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="For example: cUwRjTQAAAAJ"
+              aria-describedby="scholar-help"
+              required
+            >
+          </div>
+
+          <div class="year-fields" role="group" aria-label="Publication year range">
+            <div class="field">
+              <label for="from-year">From year</label>
+              <input id="from-year" name="from_year" type="number" min="1900" max="2100" inputmode="numeric" required>
+            </div>
+            <span class="year-separator" aria-hidden="true">—</span>
+            <div class="field">
+              <label for="to-year">To year</label>
+              <input id="to-year" name="to_year" type="number" min="1900" max="2100" inputmode="numeric" required>
+            </div>
+          </div>
+
+          <button class="primary-button" id="search-button" type="submit">
+            <span class="button-label">Search</span>
+            <span class="button-spinner" aria-hidden="true"></span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+          </button>
+        </form>
+
+        <div id="query-status" class="query-status" role="status" aria-live="polite" hidden>
+          <span class="status-dot" aria-hidden="true"></span>
+          <p id="status-message"></p>
+        </div>
+      </section>
+
+      <section id="results" class="results" aria-labelledby="results-title" hidden>
+        <div class="results-heading">
+          <div>
+            <h2 id="results-title">Results</h2>
+            <p id="profile-summary" class="profile-summary"></p>
+          </div>
+          <div id="result-count" class="result-count" aria-label="Publication count"></div>
+        </div>
+
+        <div id="empty-state" class="empty-state" hidden>
+          <span aria-hidden="true">0</span>
+          <h3>No results</h3>
+          <p>Try a wider year range.</p>
+        </div>
+
+        <ol id="publication-list" class="publication-list"></ol>
+      </section>
+
+      <footer class="site-footer">
+        <p>Review every field before submitting in Clever.</p>
+      </footer>
+    </main>
+
+    <template id="publication-template">
+      <li class="publication-item">
+        <article>
+          <div class="publication-main">
+            <div class="publication-badges">
+              <span class="year-badge"></span>
+              <span class="duplicate-badge" hidden></span>
+              <span class="library-match-badge" hidden></span>
+              <span class="opened-badge" hidden>✓ Opened</span>
+            </div>
+            <h3 class="publication-title"></h3>
+            <p class="publication-authors"></p>
+            <p class="publication-venue"></p>
+          </div>
+          <div class="publication-actions">
+            <a class="detail-link" target="_blank" rel="noreferrer">
+              Scholar
+              <span aria-hidden="true">↗</span>
+            </a>
+            <button class="prepare-button" type="button">
+              <span class="prepare-label">Open in Clever</span>
+              <span class="prepare-spinner" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="publication-feedback" role="status" hidden>
+            <p class="feedback-message"></p>
+            <details class="manual-fields" hidden>
+              <summary></summary>
+              <ul></ul>
+            </details>
+            <a class="fallback-link" target="_blank" rel="noreferrer" hidden>Open Clever ↗</a>
+          </div>
+        </article>
+      </li>
+    </template>
+  </body>
+</html>

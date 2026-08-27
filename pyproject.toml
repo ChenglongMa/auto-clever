@@ -1,0 +1,23 @@
+[project]
+name = "auto-clever"
+version = "0.1.0"
+description = "Prepare Google Scholar publications for the ADM+S Clever form"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "beautifulsoup4",
+    "fastapi",
+    "httpx",
+    "uvicorn[standard]",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["."]
+testpaths = ["server/tests", "web/tests"]
