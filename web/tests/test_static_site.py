@@ -43,6 +43,13 @@ def test_local_assets_use_relative_existing_paths() -> None:
         assert (WEB_ROOT / reference.removeprefix("./")).is_file()
 
 
+def test_production_api_uses_autotasks_domain() -> None:
+    config = (WEB_ROOT / "config.js").read_text()
+
+    assert '"https://auto-clever-api.autotasks.net"' in config
+    assert "auto-clever-api.handbooks.cc" not in config
+
+
 def test_untrusted_api_values_are_not_rendered_as_html() -> None:
     script = (WEB_ROOT / "app.js").read_text()
 
